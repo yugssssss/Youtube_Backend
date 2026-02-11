@@ -11,7 +11,7 @@ on:
  
 #jobs - a collection of steps to perform the workflow
 jobs:
-#1st job - build
+
   build: 
 
     runs-on: ubuntu-latest
