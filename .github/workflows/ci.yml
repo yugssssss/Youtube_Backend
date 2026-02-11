@@ -1,50 +1,61 @@
-#workflow - pipeline
 
-name: Node.js CI
+# workflow -> Pipeline
+# workflow name
+name: CI Pipeline
 
-#on which events the workflow should run
+# event on which you want this pipeline to be triggered
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
- 
-#jobs - a collection of steps to perform the workflow
+
+# jobs
 jobs:
+  build:
 
-  build: 
-
+    # server
     runs-on: ubuntu-latest
 
+    # versions you want to test your app on
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x] 
+        node-version: [18.x, 20.x, 22.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+        # switch branch
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: echo "building app" 
+        # actual commands
+    - name : Build Command
+      run: echo "Building APP" 
 
-   test: 
 
+  test:
+
+    # server
     runs-on: ubuntu-latest
 
+    # versions you want to test your app on
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x] 
+        node-version: [18.x, 20.x, 22.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+        # switch branch
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: echo "testing app" 
-   
+        # actual command
+
+    - name : Test Command
+      run: echo "Testing App"
