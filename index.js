@@ -27,14 +27,14 @@ app.use('/videos', VideoRoutes);
 
 // Connect to MongoDB and start the server
 
-mongoose.connect(MONGO_URL).then(() => {
-    console.log("Connected to MongoDB");
-}).catch((err)=>{
-    console.error("Error connecting to MongoDB:", err);
-})
+// mongoose.connect(MONGO_URL).then(() => {
+//     console.log("Connected to MongoDB");
+// }).catch((err)=>{
+//     console.error("Error connecting to MongoDB:", err);
+// })
 
 
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(4000, () => {
+  console.log(`Server is running on http://localhost:4000`);
 }); 
