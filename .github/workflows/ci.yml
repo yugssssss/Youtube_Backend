@@ -1,4 +1,3 @@
-
 # workflow -> Pipeline
 # workflow name
 name: CI Pipeline
@@ -58,4 +57,4 @@ jobs:
         # actual command
 
     - name : Test Command
-      run: echo "Testing App"
+      run: echo "Testing APP"
