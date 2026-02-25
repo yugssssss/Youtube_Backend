@@ -15,7 +15,7 @@ const UserRoutes = require('./routes/User.routes');
 const channelRoutes = require('./routes/Channel.routes');
 const VideoRoutes = require('./routes/Video.routes');
 
-// Sample route
+
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
@@ -25,7 +25,7 @@ app.use('/users', UserRoutes);
 app.use('/channels', channelRoutes);
 app.use('/videos', VideoRoutes);
 
-// Connect to MongoDB and start the server
+
 
 // mongoose.connect(MONGO_URL).then(() => {
 //     console.log("Connected to MongoDB");
