@@ -57,7 +57,7 @@ jobs:
         # actual command
 
     - name : Install Command
-      run  : npm install
+      run  : npm ci
 
     - name : Run test
       run  : npm test
