@@ -18,7 +18,6 @@ COPY . .
 #expose port
 EXPOSE 4000
 
-
 #start the application
 CMD ["npm", "start"]
 

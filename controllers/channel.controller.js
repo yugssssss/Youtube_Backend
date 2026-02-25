@@ -1,4 +1,4 @@
-const Channel = require('../models/channel.model');
+const Channel = require('../models/Channel.model');
 const UserModel = require('../models/User.model');
 const mongoose = require('mongoose');
 
@@ -157,7 +157,7 @@ const getDetails = async (req,res) =>{
            
         ])
 
-        return res.status(200).json({message:"details fetched successfully", data});
+        return res.status(200).json({message:"details fetched success", data});
     } catch (error) {
         
     }

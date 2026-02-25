@@ -1,7 +1,7 @@
 
 
-const VideoModel = require('../models/video.model');
-const VideoStats = require('../models/videostats.model');
+const VideoModel = require('../models/Video.model');
+const VideoStats = require('../models/VideoStats.model');
 
 const pubishvideo = async (req,res) =>{
     try {
