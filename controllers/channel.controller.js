@@ -1,7 +1,7 @@
 const Channel = require('../models/Channel.model');
 const UserModel = require('../models/User.model');
 const mongoose = require('mongoose');
-
+const redis = require('../utils/redisClint');
 const createChannel = async (req,res) =>{
     try {
         const{ownerId , ChannelName , about} = req.body;
@@ -23,6 +23,12 @@ const getAccountDetails = async (req , res) =>{
         const {userId} = req.body;
         // logic
         // if there are 2 collections , then populate is recomended but if more than 2 colelection or nested collection like we have is this project then pipeline is recommentded (merging pipeline)  // user is parent , thats why we are using UserModel here
+
+        const cachedData = await redis.get(`account_details_${userId}`);
+        if(cachedData){
+            return res.status(200).json({message:"account details (from cache) :", data:JSON.parse(cachedData)});
+        }
+
         const data = await UserModel.aggregate([ 
             //stage 1 (match - find user by userid)
             {
@@ -59,6 +65,9 @@ const getAccountDetails = async (req , res) =>{
 
             // }
         ])
+        
+        await redis.set(`account_details_${userId}`, JSON.stringify(data), 'EX', 20); // cache for 1 hour
+
 
        return res.status(200).json({message:"account details :",data});
 
@@ -163,10 +172,32 @@ const getDetails = async (req,res) =>{
     }
 }
 
+const getResultFromCbse = async (req,res) =>{
+    try {
+        const {userId} = req.body;
+
+        const key = `key:${userId}`;
+        const limit = 5;
+        const time_duration = 60;
+
+        const requestCount = await redis.incr(key);
+
+        await redis.expire(key, time_duration);
+        if(requestCount >limit){
+            return res.status(429).json({message:"too many request , please try again later"});
+        }
+
+        return res.status(200).json({message:"result from cbse api"});
+    } catch (error) {
+        return res.status(500).json({message:"error fetching cbse result", error: error.message});
+    }
+}
+
 
 
 module.exports = {
     createChannel,
     getAccountDetails,
-    getDetails
+    getDetails,
+    getResultFromCbse
 }
