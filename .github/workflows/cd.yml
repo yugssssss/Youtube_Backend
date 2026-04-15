@@ -43,7 +43,7 @@ jobs:
     - name: Push Docker Image
       run: docker push yugcoder/youtube_backend:latest
 
-    aws-build:
+  aws-build:
 
     # server
     needs: build
