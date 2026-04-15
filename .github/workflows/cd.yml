@@ -43,4 +43,37 @@ jobs:
     - name: Push Docker Image
       run: docker push yugcoder/youtube_backend:latest
 
+    aws-build:
+
+    # server
+    needs: build
+    runs-on: self-hosted
+
+    # versions you want to test your app on
+    # strategy:
+    #   matrix:
+    #     node-version: [18.x, 20.x, 22.x]
+    #     # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+        # switch branch
+    - uses: actions/checkout@v4
+    # - name: Use Node.js ${{ matrix.node-version }}
+    #   uses: actions/setup-node@v4
+    #   with:
+    #     node-version: ${{ matrix.node-version }}
+    #     cache: 'npm'
+    #     # actual commands
+    - name : pull latest docker image
+      run: docker pull yugcoder/youtube_backend:latest
+
+    - name: remove existing container
+      run: docker rm -f youtube_backend || true
+
+    - name: run redis inside container
+      run: docker run -d --name redis redis:latest
+
+    - name: run docker container yt-backend
+      run: docker run -d --name youtube_backend --link redis:redis -p 4000:4000 -e MONGO_URL="${{ secrets.MONGO_URL }}" yugcoder/youtube_backend:latest
+
  
